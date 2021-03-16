@@ -6,39 +6,41 @@ import useAuth from "../context/AuthContext";
 import {VOIVODESHIPS} from "../constants/Config";
 const cheerio = require("cheerio");
 
-export default function SetupLeague({navigation}) {
-    const {authState, selectLeague} = useAuth();
-    const [leagues, setLeagues] = useState([]);
-    const [selectedUrl, setSelectedUrl] = useState(null);
+export default function SetupTeam({navigation}) {
+    const {authState, selectTeam} = useAuth();
+
+    const [teams, setTeams] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState(null);
 
     React.useEffect(() => {
         const ship = VOIVODESHIPS[authState.site];
+        const leagueUrl = authState.leagueUrl;
         (async () => {
-            const response = await fetch(ship.site);      // fetch page
-            const htmlString = await response.text();     // get response text
-            const $ = cheerio.load(htmlString);           // parse HTML string
-            const items = $("div#nav-top li a");
+            const response = await fetch(ship.site + leagueUrl);
+            const htmlString = await response.text();
+            const $ = cheerio.load(htmlString);
+            const items = $("div#leftnav table tr a");
 
-            let ligi = [];
+            let tms = [];
 
             items.each(function (i, e) {
                 let url = $(this).attr("href");
-                if (url.includes("/liga/")) {
-                    ligi.push({
-                        name: $(this).text(),
+                let name = $(this).text();
+                if (url.includes("/druzyna/") && name) {
+                    tms.push({
+                        name: name,
                         url: url
                     });
                 }
             });
-            setLeagues(ligi);
+            setTeams(tms);
         })();
     }, []);
 
-
     return (
         <ScrollView>
-            <RadioButton.Group onValueChange={value => setSelectedUrl(value)} value={selectedUrl}>
-                {leagues.map((value, index) => {
+            <RadioButton.Group onValueChange={value => setSelectedTeam(value)} value={selectedTeam}>
+                {teams.map((value, index) => {
                     return <RadioButton.Item label={value.name} value={value.url} key={index}/>
                 })}
             </RadioButton.Group>
@@ -54,8 +56,7 @@ export default function SetupLeague({navigation}) {
                 }}
                 mode="contained"
                 onPress={() => {
-                    selectLeague(selectedUrl)
-                    navigation.navigate('SetupTeam')
+                    selectTeam(selectedTeam)
                 }}
             >
                 Zatwierdź

@@ -6,7 +6,7 @@ import useAuth from "../context/AuthContext";
 
 export default function SetupSite({navigation}) {
     const [voivodeship, setVoivodeship] = useState("slask");
-    const {selectVoivodeship} = useAuth();
+    const {authState, selectVoivodeship} = useAuth();
 
     return (
         <>

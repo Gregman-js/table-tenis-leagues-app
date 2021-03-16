@@ -17,27 +17,30 @@ export function AuthProvider({children}) {
                         ...prevState,
                         site: action.site,
                         leagueUrl: action.leagueUrl,
-                        fullyConfigured: action.fullyConfigured,
+                        teamUrl: action.teamUrl,
                         isLoading: false,
                     };
                 case 'SELECT_SITE':
                     return {
                         ...prevState,
                         site: action.site,
-                        fullyConfigured: action.site && prevState.leagueUrl,
                     };
                 case 'SELECT_LEAGUE':
                     return {
                         ...prevState,
                         leagueUrl: action.leagueUrl,
-                        fullyConfigured: action.leagueUrl && prevState.site,
+                    };
+                case 'SELECT_TEAM':
+                    return {
+                        ...prevState,
+                        teamUrl: action.teamUrl,
                     };
                 case 'SIGN_OUT':
                     return {
                         ...prevState,
                         site: null,
                         leagueUrl: null,
-                        fullyConfigured: false,
+                        teamUrl: null,
                     };
             }
         },
@@ -45,7 +48,7 @@ export function AuthProvider({children}) {
             isLoading: true,
             site: null,
             leagueUrl: null,
-            fullyConfigured: false,
+            teamUrl: null,
         }
     );
 
@@ -53,23 +56,17 @@ export function AuthProvider({children}) {
         const bootstrapAsync = async () => {
             let leagueUrl;
             let site;
+            let teamUrl;
 
             try {
                 leagueUrl = await AsyncStorage.getItem('leagueUrl');
                 site = await AsyncStorage.getItem('site');
+                teamUrl = await AsyncStorage.getItem('teamUrl');
             } catch (e) {
 
             }
 
-            let fullyConfigured = false;
-
-            if (leagueUrl && site) {
-                fullyConfigured = true;
-            }
-
-            console.log("Restored: ", site, leagueUrl, fullyConfigured);
-
-            dispatch({type: 'RESTORE_TOKEN', leagueUrl: leagueUrl, site: site, fullyConfigured: fullyConfigured});
+            dispatch({type: 'RESTORE_TOKEN', leagueUrl: leagueUrl, site: site, teamUrl: teamUrl});
         };
 
         bootstrapAsync();
@@ -91,9 +88,14 @@ export function AuthProvider({children}) {
                 await AsyncStorage.setItem('leagueUrl', url);
                 dispatch({type: 'SELECT_LEAGUE', leagueUrl: url});
             },
+            selectTeam: async url => {
+                await AsyncStorage.setItem('teamUrl', url);
+                dispatch({type: 'SELECT_TEAM', teamUrl: url});
+            },
             signOut: async () => {
                 await AsyncStorage.removeItem('leagueUrl');
                 await AsyncStorage.removeItem('site');
+                await AsyncStorage.removeItem('teamUrl');
                 dispatch({type: 'SIGN_OUT'});
             },
         }),
