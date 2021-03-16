@@ -13,8 +13,13 @@ export default function SetupTeam({navigation}) {
     const [selectedTeam, setSelectedTeam] = useState(null);
 
     React.useEffect(() => {
-        const ship = VOIVODESHIPS[authState.site];
         const leagueUrl = authState.leagueUrl;
+
+        if (null === leagueUrl) {
+            return;
+        }
+
+        const ship = VOIVODESHIPS[authState.site];
         (async () => {
             const response = await fetch(ship.site + leagueUrl);
             const htmlString = await response.text();
@@ -35,7 +40,7 @@ export default function SetupTeam({navigation}) {
             });
             setTeams(tms);
         })();
-    }, []);
+    }, [authState.leagueUrl]);
 
     return (
         <ScrollView>

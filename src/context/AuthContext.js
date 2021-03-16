@@ -107,6 +107,8 @@ export function AuthProvider({children}) {
         authState: state
     }
 
+    // console.log(state)
+
     return (
         <AuthContext.Provider value={authValues}>
             {children}

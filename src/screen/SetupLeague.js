@@ -12,6 +12,10 @@ export default function SetupLeague({navigation}) {
     const [selectedUrl, setSelectedUrl] = useState(null);
 
     React.useEffect(() => {
+        if (null === authState.site) {
+            return;
+        }
+
         const ship = VOIVODESHIPS[authState.site];
         (async () => {
             const response = await fetch(ship.site);      // fetch page
@@ -32,7 +36,7 @@ export default function SetupLeague({navigation}) {
             });
             setLeagues(ligi);
         })();
-    }, []);
+    }, [authState.site]);
 
 
     return (
