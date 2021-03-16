@@ -1,16 +1,15 @@
-import React from "react";
-import {Text} from "react-native";
-import useAuth from "../context/AuthContext";
-import AppLoading from "expo-app-loading";
-import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
-import Setup from "../screen/Setup";
+import React from 'react';
+import useAuth from '../context/AuthContext';
+import AppLoading from 'expo-app-loading';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import SetupSite from '../screen/SetupSite';
+import SetupLeague from "../screen/SetupLeague";
 
 const Stack = createStackNavigator();
 
-export default function AppNavigation () {
+export default function AppNavigation() {
     const {authState} = useAuth();
-    console.log(authState);
 
     if (authState.isLoading) {
         return <AppLoading/>;
@@ -18,10 +17,21 @@ export default function AppNavigation () {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                // screenOptions={{
+                //     headerShown: false,
+                // }}
+                initialRouteName={'SetupSite'}
+            >
                 <Stack.Screen
-                    name={"Setup"}
-                    component={Setup}
+                    name={'SetupSite'}
+                    component={SetupSite}
+                    options={{title: 'Wybierz województwo'}}
+                />
+                <Stack.Screen
+                    name={'SetupLeague'}
+                    component={SetupLeague}
+                    options={{title: 'Wybierz Ligę'}}
                 />
             </Stack.Navigator>
         </NavigationContainer>
