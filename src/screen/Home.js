@@ -12,49 +12,6 @@ import MatchesList from "../components/MatchesList";
 
 
 export default function Home({navigation}) {
-    const {authState} = useAuth();
-    const [matches, setMatches] = useState([]);
-
-    React.useEffect(() => {
-        const ship = VOIVODESHIPS[authState.site];
-        const leagueUrl = authState.leagueUrl;
-
-        (async () => {
-            const response = await fetch(ship.site + leagueUrl);
-            const htmlString = await response.text();
-            const $ = cheerio.load(htmlString);
-            const content = $('h2:contains("Terminarz")').parent().find("table tbody").find("tr");
-
-            let items = [];
-
-            content.each(function (i, e) {
-                const rows = $(e).find('td.tabela1');
-                if (6 !== rows.length) {
-                    return;
-                }
-                const team1 = rows.eq(2).text().trim();
-                const team2 = rows.eq(3).text().trim();
-                const result = rows.eq(4).text().trim();
-                let date = rows.eq(0).text().trim().slice(0,19);
-                const time = date.slice(14, 19);
-                date = date.slice(0, 10);
-
-                if (authState.teamName !== team1 && authState.teamName !== team2) {
-                    return;
-                }
-                items.push({
-                    team1: team1,
-                    team2: team2,
-                    result: result,
-                    date: date,
-                    time: time,
-                })
-            });
-            setMatches(items);
-        })()
-    });
-
-
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
@@ -67,9 +24,7 @@ export default function Home({navigation}) {
                 <Text style={FONTS.h5}>Mecze</Text>
             </View>
             <View style={styles.contentBox}>
-                <MatchesList
-                    matches={matches}
-                />
+                <MatchesList />
             </View>
         </View>
     )
