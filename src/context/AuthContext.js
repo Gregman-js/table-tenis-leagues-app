@@ -18,6 +18,7 @@ export function AuthProvider({children}) {
                         site: action.site,
                         leagueUrl: action.leagueUrl,
                         teamUrl: action.teamUrl,
+                        teamName: action.teamName,
                         isLoading: false,
                     };
                 case 'SELECT_SITE':
@@ -34,6 +35,7 @@ export function AuthProvider({children}) {
                     return {
                         ...prevState,
                         teamUrl: action.teamUrl,
+                        teamName: action.teamName,
                     };
                 case 'SIGN_OUT':
                     return {
@@ -41,6 +43,7 @@ export function AuthProvider({children}) {
                         site: null,
                         leagueUrl: null,
                         teamUrl: null,
+                        teamName: null,
                     };
             }
         },
@@ -49,6 +52,7 @@ export function AuthProvider({children}) {
             site: null,
             leagueUrl: null,
             teamUrl: null,
+            teamName: null,
         }
     );
 
@@ -57,16 +61,18 @@ export function AuthProvider({children}) {
             let leagueUrl;
             let site;
             let teamUrl;
+            let teamName;
 
             try {
                 leagueUrl = await AsyncStorage.getItem('leagueUrl');
                 site = await AsyncStorage.getItem('site');
                 teamUrl = await AsyncStorage.getItem('teamUrl');
+                teamName = await AsyncStorage.getItem('teamName');
             } catch (e) {
 
             }
 
-            dispatch({type: 'RESTORE_TOKEN', leagueUrl: leagueUrl, site: site, teamUrl: teamUrl});
+            dispatch({type: 'RESTORE_TOKEN', leagueUrl: leagueUrl, site: site, teamUrl: teamUrl, teamName: teamName});
         };
 
         bootstrapAsync();
@@ -88,14 +94,17 @@ export function AuthProvider({children}) {
                 await AsyncStorage.setItem('leagueUrl', url);
                 dispatch({type: 'SELECT_LEAGUE', leagueUrl: url});
             },
-            selectTeam: async url => {
+            selectTeam: async (url, name) => {
+                console.log(url, name)
                 await AsyncStorage.setItem('teamUrl', url);
-                dispatch({type: 'SELECT_TEAM', teamUrl: url});
+                await AsyncStorage.setItem('teamName', name);
+                dispatch({type: 'SELECT_TEAM', teamUrl: url, teamName: name});
             },
             signOut: async () => {
                 await AsyncStorage.removeItem('leagueUrl');
                 await AsyncStorage.removeItem('site');
                 await AsyncStorage.removeItem('teamUrl');
+                await AsyncStorage.removeItem('teamName');
                 dispatch({type: 'SIGN_OUT'});
             },
         }),
@@ -107,7 +116,7 @@ export function AuthProvider({children}) {
         authState: state
     }
 
-    // console.log(state)
+    console.log(state)
 
     return (
         <AuthContext.Provider value={authValues}>

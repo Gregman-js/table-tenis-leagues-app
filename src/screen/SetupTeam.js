@@ -53,19 +53,22 @@ export default function SetupTeam({navigation}) {
                 flex: 1,
             }}>
             </View>
-            <Button
-                style={{
-                    marginBottom: SIZES.padding2,
-                    marginHorizontal: SIZES.padding2,
-                    marginTop: SIZES.padding2,
-                }}
-                mode="contained"
-                onPress={() => {
-                    selectTeam(selectedTeam)
-                }}
-            >
-                Zatwierdź
-            </Button>
+            {teams.length > 0 && (
+                <Button
+                    style={{
+                        marginBottom: SIZES.padding2,
+                        marginHorizontal: SIZES.padding2,
+                        marginTop: SIZES.padding2,
+                    }}
+                    mode="contained"
+                    onPress={() => {
+                        const team = teams.filter(el => el.url === selectedTeam)[0];
+                        selectTeam(team.url, team.name)
+                    }}
+                >
+                    Zatwierdź
+                </Button>
+            )}
         </ScrollView>
     )
 }

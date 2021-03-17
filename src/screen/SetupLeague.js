@@ -50,20 +50,22 @@ export default function SetupLeague({navigation}) {
                 flex: 1,
             }}>
             </View>
-            <Button
-                style={{
-                    marginBottom: SIZES.padding2,
-                    marginHorizontal: SIZES.padding2,
-                    marginTop: SIZES.padding2,
-                }}
-                mode="contained"
-                onPress={() => {
-                    selectLeague(selectedUrl)
-                    navigation.navigate('SetupTeam')
-                }}
-            >
-                Zatwierdź
-            </Button>
+            {leagues.length > 0 && (
+                <Button
+                    style={{
+                        marginBottom: SIZES.padding2,
+                        marginHorizontal: SIZES.padding2,
+                        marginTop: SIZES.padding2,
+                    }}
+                    mode="contained"
+                    onPress={() => {
+                        selectLeague(selectedUrl)
+                        navigation.navigate('SetupTeam')
+                    }}
+                >
+                    Zatwierdź
+                </Button>
+            )}
         </ScrollView>
     )
 }
