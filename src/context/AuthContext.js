@@ -95,7 +95,6 @@ export function AuthProvider({children}) {
                 dispatch({type: 'SELECT_LEAGUE', leagueUrl: url});
             },
             selectTeam: async (url, name) => {
-                console.log(url, name)
                 await AsyncStorage.setItem('teamUrl', url);
                 await AsyncStorage.setItem('teamName', name);
                 dispatch({type: 'SELECT_TEAM', teamUrl: url, teamName: name});
@@ -115,8 +114,6 @@ export function AuthProvider({children}) {
         ...authFlow,
         authState: state
     }
-
-    console.log(state)
 
     return (
         <AuthContext.Provider value={authValues}>

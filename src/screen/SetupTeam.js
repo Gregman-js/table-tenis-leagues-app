@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Button, RadioButton} from "react-native-paper";
 import {SIZES} from "../constants/theme";
 import useAuth from "../context/AuthContext";
 import {VOIVODESHIPS} from "../constants/Config";
+
 const cheerio = require("cheerio");
 
 export default function SetupTeam({navigation}) {

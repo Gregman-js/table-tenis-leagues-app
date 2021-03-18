@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {Button, RadioButton} from "react-native-paper";
 import {SIZES} from "../constants/theme";
 import useAuth from "../context/AuthContext";
@@ -11,7 +11,7 @@ export default function SetupSite({navigation}) {
     return (
         <>
             <RadioButton.Group onValueChange={value => setVoivodeship(value)} value={voivodeship}>
-                <RadioButton.Item label={"Śląskie"} value={"slask"} />
+                <RadioButton.Item label={"Śląskie"} value={"slask"}/>
             </RadioButton.Group>
             <View style={{
                 flex: 1,

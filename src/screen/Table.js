@@ -1,11 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from "../constants/theme";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
-import MatchesList from "../components/MatchesList";
+import useAuth from "../context/AuthContext";
+import {VOIVODESHIPS} from "../constants/Config";
+import TeamsList from "../components/TeamsList";
 
-export default function Home({navigation}) {
+const cheerio = require("cheerio");
+
+const reg = {
+    id: /^[0-9]{1,2}\.$/,
+};
+
+
+export default function Table({navigation}) {
+
+    const {authState} = useAuth();
+
+    const [teams, setTeams] = useState([]);
+
+    React.useEffect(() => {
+        const leagueUrl = authState.leagueUrl;
+
+        if (null === leagueUrl) {
+            return;
+        }
+
+        const ship = VOIVODESHIPS[authState.site];
+        (async () => {
+            const response = await fetch(ship.site + leagueUrl);
+            const htmlString = await response.text();
+            const $ = cheerio.load(htmlString);
+            const items = $("div#leftnav table tr");
+
+            let tms = [];
+
+            items.each(function (i, e) {
+                const rows = $(this).find("td");
+                const id = rows.eq(0).text().trim();
+                const teamName = rows.eq(1).find("a").text().trim();
+                const played = rows.eq(2).text().trim();
+                const pkt = rows.eq(3).text().trim();
+                const smallPkt = rows.eq(4).text().trim();
+                if (false === reg.id.test(id) || "" === teamName) {
+                    return;
+                }
+                tms.push({
+                    id: id,
+                    name: teamName,
+                    played: played,
+                    points: pkt,
+                    smallPoints: smallPkt,
+                });
+            });
+            setTeams(tms);
+        })();
+    }, []);
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
@@ -15,10 +67,10 @@ export default function Home({navigation}) {
                 >
                     <FontAwesomeIcon icon={faBars} size={20}/>
                 </TouchableOpacity>
-                <Text style={FONTS.h5}>Mecze</Text>
+                <Text style={FONTS.h5}>Tabela</Text>
             </View>
             <View style={styles.contentBox}>
-                <MatchesList/>
+                <TeamsList teams={teams}/>
             </View>
         </View>
     )

@@ -1,21 +1,10 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCircle, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 import {FONTS, SHADOWS, SIZES} from "../constants/theme";
 
-const PeopleIcon = React.memo(() => <FontAwesomeIcon icon={faUser} size={11}/>);
-
-
-export function processColor({status}) {
-    return 0 === status
-        ? "#EFC27E"
-        : -1 === status
-            ? "#ABEF7E"
-            : "#EF7E7E"
-}
-
-export default function MatchItem({item}) {
+export default function TeamItem({item}) {
 
     return (
         <View
@@ -23,20 +12,21 @@ export default function MatchItem({item}) {
         >
             <View style={styles.header}>
                 <Text style={{...FONTS.h6, flex: 1}}>
-                    {item.team1} - {item.team2}
+                    {item.id} {item.name}
                 </Text>
             </View>
             <View style={{...styles.header, justifyContent: 'flex-start'}}>
-                <FontAwesomeIcon icon={faCircle} size={16} color={processColor(item)}/>
-                <Text style={{...FONTS.body5, marginLeft: 3,}}>
-                    {item.result}
+                <FontAwesomeIcon icon={faStar} size={15} color={"#666"}/>
+                <Text style={{...FONTS.body4, marginLeft: 3}}>
+                    {item.points}
                 </Text>
             </View>
             <View style={styles.header}>
                 <Text style={FONTS.regular6}>
-                    {item.date} {item.time}
+                    {item.smallPoints}
                 </Text>
                 <Text style={FONTS.regular6}>
+                    {item.played}
                 </Text>
             </View>
         </View>

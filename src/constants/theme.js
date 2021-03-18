@@ -28,7 +28,6 @@ export const SIZES = {
 }
 
 export const FONTS = {
-    logoText: {fontFamily: "Rubik-MediumItalic", fontSize: 40, color: COLORS.text},
     h1: {fontFamily: 'Rubik-Bold', fontSize: SIZES.h1, color: COLORS.text},
     h2: {fontFamily: 'Rubik-Bold', fontSize: SIZES.h2, color: COLORS.text},
     h3: {fontFamily: 'Rubik-Bold', fontSize: SIZES.h3, color: COLORS.text},
@@ -42,8 +41,6 @@ export const FONTS = {
     body5: {fontFamily: 'Rubik-Medium', fontSize: SIZES.body5, color: COLORS.text},
     body6: {fontFamily: 'Rubik-Medium', fontSize: SIZES.body6, color: COLORS.text},
     body7: {fontFamily: 'Rubik-Medium', fontSize: SIZES.body7, color: COLORS.text},
-    light3: {fontFamily: 'Rubik-Light', fontSize: SIZES.body3, color: COLORS.text},
-    light4: {fontFamily: 'Rubik-Light', fontSize: SIZES.body4, color: COLORS.text},
     regular3: {fontFamily: 'Rubik-Regular', fontSize: SIZES.body3, color: COLORS.text},
     regular4: {fontFamily: 'Rubik-Regular', fontSize: SIZES.body4, color: COLORS.text},
     regular5: {fontFamily: 'Rubik-Regular', fontSize: SIZES.body5, color: COLORS.text},

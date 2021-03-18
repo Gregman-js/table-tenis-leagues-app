@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {DrawerContentScrollView, DrawerItem, DrawerItemList} from "@react-navigation/drawer";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faBars, faQuestionCircle, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import DrawerSection from "react-native-paper/src/components/Drawer/DrawerSection";
-import {COLORS, FONTS, SHADOWS, SIZES} from "../constants/theme";
+import {COLORS, SHADOWS, SIZES} from "../constants/theme";
 import useAuth from "../context/AuthContext";
 
 export default function SidebarContent({navigation, ...props}) {
