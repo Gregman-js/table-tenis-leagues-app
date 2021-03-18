@@ -13,6 +13,21 @@ export default function SetupTeam({navigation}) {
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                    onPress={() => {
+                        const team = teams.filter(el => el.url === selectedTeam)[0];
+                        selectTeam(team.url, team.name)
+                    }}
+                    mode={"contained"}
+                    style={{marginRight: SIZES.padding}}
+                >Dalej</Button>
+            ),
+        });
+    }, [navigation, selectedTeam, teams]);
+
     React.useEffect(() => {
         const leagueUrl = authState.leagueUrl;
 
@@ -50,26 +65,6 @@ export default function SetupTeam({navigation}) {
                     return <RadioButton.Item label={value.name} value={value.url} key={index}/>
                 })}
             </RadioButton.Group>
-            <View style={{
-                flex: 1,
-            }}>
-            </View>
-            {teams.length > 0 && (
-                <Button
-                    style={{
-                        marginBottom: SIZES.padding2,
-                        marginHorizontal: SIZES.padding2,
-                        marginTop: SIZES.padding2,
-                    }}
-                    mode="contained"
-                    onPress={() => {
-                        const team = teams.filter(el => el.url === selectedTeam)[0];
-                        selectTeam(team.url, team.name)
-                    }}
-                >
-                    Zatwierdź
-                </Button>
-            )}
         </ScrollView>
     )
 }

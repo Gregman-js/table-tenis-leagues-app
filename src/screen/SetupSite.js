@@ -8,28 +8,27 @@ export default function SetupSite({navigation}) {
     const [voivodeship, setVoivodeship] = useState("slask");
     const {authState, selectVoivodeship} = useAuth();
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                    onPress={() => {
+                        selectVoivodeship(voivodeship)
+                        navigation.navigate('SetupLeague')
+                    }}
+                    mode={"contained"}
+                    style={{marginRight: SIZES.padding}}
+                >Dalej</Button>
+            ),
+        });
+    }, [navigation, voivodeship]);
+
+
     return (
         <>
             <RadioButton.Group onValueChange={value => setVoivodeship(value)} value={voivodeship}>
                 <RadioButton.Item label={"Śląskie"} value={"slask"}/>
             </RadioButton.Group>
-            <View style={{
-                flex: 1,
-            }}>
-            </View>
-            <Button
-                style={{
-                    marginBottom: SIZES.padding2,
-                    marginHorizontal: SIZES.padding2
-                }}
-                mode="contained"
-                onPress={() => {
-                    selectVoivodeship(voivodeship)
-                    navigation.navigate('SetupLeague')
-                }}
-            >
-                Zatwierdź
-            </Button>
         </>
     )
 }

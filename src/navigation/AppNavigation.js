@@ -15,6 +15,7 @@ import {COLORS, FONTS, SIZES} from "../constants/theme";
 import {useFonts} from "expo-font";
 import Home from "../screen/Home";
 import Table from "../screen/Table";
+import {Button} from "react-native-paper";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

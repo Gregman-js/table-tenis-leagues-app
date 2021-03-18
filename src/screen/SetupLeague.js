@@ -12,6 +12,21 @@ export default function SetupLeague({navigation}) {
     const [leagues, setLeagues] = useState([]);
     const [selectedUrl, setSelectedUrl] = useState(null);
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                    onPress={() => {
+                        selectLeague(selectedUrl)
+                        navigation.navigate('SetupTeam')
+                    }}
+                    mode={"contained"}
+                    style={{marginRight: SIZES.padding}}
+                >Dalej</Button>
+            ),
+        });
+    }, [navigation, selectedUrl]);
+
     React.useEffect(() => {
         if (null === authState.site) {
             return;
@@ -47,26 +62,6 @@ export default function SetupLeague({navigation}) {
                     return <RadioButton.Item label={value.name} value={value.url} key={index}/>
                 })}
             </RadioButton.Group>
-            <View style={{
-                flex: 1,
-            }}>
-            </View>
-            {leagues.length > 0 && (
-                <Button
-                    style={{
-                        marginBottom: SIZES.padding2,
-                        marginHorizontal: SIZES.padding2,
-                        marginTop: SIZES.padding2,
-                    }}
-                    mode="contained"
-                    onPress={() => {
-                        selectLeague(selectedUrl)
-                        navigation.navigate('SetupTeam')
-                    }}
-                >
-                    Zatwierdź
-                </Button>
-            )}
         </ScrollView>
     )
 }
